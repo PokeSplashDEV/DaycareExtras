@@ -1,8 +1,10 @@
 package com.bencrow11.daycareextras;
 
 import com.bencrow11.daycareextras.commands.AddBoxCommand;
+import com.bencrow11.daycareextras.commands.RemoveBoxCommand;
 import com.bencrow11.daycareextras.commands.SetBoxCommand;
 import com.pixelmonmod.pixelmon.Pixelmon;
+import com.pixelmonmod.pixelmon.api.events.screens.BadgeCaseEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,6 +28,7 @@ public class DaycareExtras {
 	public void registerCommand(RegisterCommandsEvent event) {
 		new AddBoxCommand(event.getDispatcher());
 		new SetBoxCommand(event.getDispatcher());
+		new RemoveBoxCommand(event.getDispatcher());
 	}
 
 	// You can use SubscribeEvent and let the Event Bus discover methods to call

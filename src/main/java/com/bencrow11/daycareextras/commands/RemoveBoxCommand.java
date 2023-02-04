@@ -4,6 +4,7 @@ import com.bencrow11.daycareextras.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
+import com.pixelmonmod.pixelmon.api.storage.breeding.DayCareBox;
 import com.pixelmonmod.pixelmon.api.storage.breeding.PlayerDayCare;
 import com.pixelmonmod.pixelmon.comm.CommandChatHandler;
 import com.pixelmonmod.pixelmon.command.PixelCommand;
@@ -13,25 +14,26 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.PermissionAPI;
+import org.antlr.v4.runtime.misc.NotNull;
 
-public class AddBoxCommand extends PixelCommand {
+public class RemoveBoxCommand extends PixelCommand {
 
-	public static String PERMISSION = "daycareextras.addbox";
+	public static String PERMISSION = "daycareextras.delbox";
 
-	public AddBoxCommand(CommandDispatcher<CommandSource> dispatcher) {
+	public RemoveBoxCommand(CommandDispatcher<CommandSource> dispatcher) {
 		super(dispatcher);
 	}
 
 	@Override
 	public String getName() {
-		return "addbox";
+		return "removebox";
 	}
 
 	@Override
 	public String getUsage(CommandSource sender) {
 		return TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "DaycareExtras" + TextFormatting.RESET +
-				"- addbox:\n" + "Adds a daycare slot to a person Daycare.\n" + TextFormatting.YELLOW +
-				"Usage: addbox <player> <amount>";
+				"- delbox:\n" + "Removes a daycare slot to a person Daycare.\n" + TextFormatting.YELLOW +
+				"Usage: delbox <player> <amount>";
 	}
 
 	@Override
@@ -57,7 +59,18 @@ public class AddBoxCommand extends PixelCommand {
 				ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerByUsername(strings[0]);
 
 		PlayerDayCare daycare = StorageProxy.getParty(player).getDayCare();
-		daycare.setAllowedBoxes(daycare.getAllowedBoxes() + Integer.parseInt(strings[1]));
+		int allowedBoxes = daycare.getAllowedBoxes();
+		int amount = Integer.parseInt(strings[1]);
+
+		if (allowedBoxes - amount <= 0) {
+			CommandChatHandler.sendChat(sender, TextFormatting.RED + "You can not remove more boxes than the player " +
+					"has");
+			return;
+		}
+
+		Utils.RemovePokemonFromBox(daycare, allowedBoxes, amount);
+
+		daycare.setAllowedBoxes(allowedBoxes - amount);
 
 		Utils.updateClientUI(StorageProxy.getParty(player));
 	}

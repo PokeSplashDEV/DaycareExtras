@@ -1,5 +1,6 @@
 package com.bencrow11.daycareextras.commands;
 
+import com.bencrow11.daycareextras.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.pixelmonmod.pixelmon.api.storage.PartyStorage;
@@ -62,9 +63,20 @@ public class SetBoxCommand extends PixelCommand {
 				ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerByUsername(strings[0]);
 
 		PlayerDayCare daycare = StorageProxy.getParty(player).getDayCare();
-		daycare.setAllowedBoxes(Integer.parseInt(strings[1]));
+		int oldAmount = daycare.getAllowedBoxes();
+		int newAmount = Integer.parseInt(strings[1]);
 
-		// Update client?
-		// Updates on relog
+		if (newAmount < 1) {
+			CommandChatHandler.sendChat(sender, TextFormatting.RED + "You can not set boxes to 1 or less");
+			return;
+		}
+
+		if (newAmount < oldAmount) {
+			Utils.RemovePokemonFromBox(daycare, oldAmount, oldAmount - newAmount);
+		}
+
+		daycare.setAllowedBoxes(newAmount);
+
+		Utils.updateClientUI(StorageProxy.getParty(player));
 	}
 }
