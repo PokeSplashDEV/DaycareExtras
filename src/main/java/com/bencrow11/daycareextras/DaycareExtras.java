@@ -4,7 +4,6 @@ import com.bencrow11.daycareextras.commands.AddBoxCommand;
 import com.bencrow11.daycareextras.commands.RemoveBoxCommand;
 import com.bencrow11.daycareextras.commands.SetBoxCommand;
 import com.pixelmonmod.pixelmon.Pixelmon;
-import com.pixelmonmod.pixelmon.api.events.screens.BadgeCaseEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

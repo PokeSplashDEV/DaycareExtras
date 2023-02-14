@@ -59,6 +59,6 @@ public class AddBoxCommand extends PixelCommand {
 		PlayerDayCare daycare = StorageProxy.getParty(player).getDayCare();
 		daycare.setAllowedBoxes(daycare.getAllowedBoxes() + Integer.parseInt(strings[1]));
 
-		Utils.updateClientUI(StorageProxy.getParty(player));
+		Utils.updateClientUI(StorageProxy.getParty(player), daycare);
 	}
 }

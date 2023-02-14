@@ -3,22 +3,16 @@ package com.bencrow11.daycareextras.commands;
 import com.bencrow11.daycareextras.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.pixelmonmod.pixelmon.api.storage.PartyStorage;
-import com.pixelmonmod.pixelmon.api.storage.PlayerPartyStorage;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
 import com.pixelmonmod.pixelmon.api.storage.breeding.PlayerDayCare;
 import com.pixelmonmod.pixelmon.comm.CommandChatHandler;
-import com.pixelmonmod.pixelmon.comm.packetHandlers.storage.ClientboundSetSelectedSlotPacket;
 import com.pixelmonmod.pixelmon.command.PixelCommand;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.PermissionAPI;
-
-import java.util.UUID;
 
 public class SetBoxCommand extends PixelCommand {
 
@@ -77,6 +71,6 @@ public class SetBoxCommand extends PixelCommand {
 
 		daycare.setAllowedBoxes(newAmount);
 
-		Utils.updateClientUI(StorageProxy.getParty(player));
+		Utils.updateClientUI(StorageProxy.getParty(player), daycare);
 	}
 }

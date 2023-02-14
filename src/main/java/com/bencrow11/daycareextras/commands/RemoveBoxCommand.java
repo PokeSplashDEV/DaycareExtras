@@ -4,7 +4,6 @@ import com.bencrow11.daycareextras.utils.Utils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.pixelmonmod.pixelmon.api.storage.StorageProxy;
-import com.pixelmonmod.pixelmon.api.storage.breeding.DayCareBox;
 import com.pixelmonmod.pixelmon.api.storage.breeding.PlayerDayCare;
 import com.pixelmonmod.pixelmon.comm.CommandChatHandler;
 import com.pixelmonmod.pixelmon.command.PixelCommand;
@@ -14,7 +13,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.PermissionAPI;
-import org.antlr.v4.runtime.misc.NotNull;
 
 public class RemoveBoxCommand extends PixelCommand {
 
@@ -72,6 +70,6 @@ public class RemoveBoxCommand extends PixelCommand {
 
 		daycare.setAllowedBoxes(allowedBoxes - amount);
 
-		Utils.updateClientUI(StorageProxy.getParty(player));
+		Utils.updateClientUI(StorageProxy.getParty(player), daycare);
 	}
 }
